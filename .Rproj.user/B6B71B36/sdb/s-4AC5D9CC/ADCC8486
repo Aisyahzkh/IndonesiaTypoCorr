@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @export correct\n#'\n#' @title\n#' Spelling Corrector for Bahasa Indonesia\n#'\n#' @description\n#' Provides function to correct spelling of a word in\n#' Bahasa Indonesia using Naive Bayes algorithm.\n#'\n#' @author Aisyah Zakiah\n#'\n#' @param kalimat\n#'\n#' @examples correc(\"tidakk\")\n#'\n\ncorrect <- function(kalimat) {\n  kalimat <- as.character(kalimat)\n  kalimat_split = strsplit(kalimat, split = \" \")\n  kalimat <- \"\"\n\n  for(i in kalimat_split[[1]]){\n    kata <- i\n    if(nchar(trimws(kata))>0){\n      if(is_katadasar(kata)) {\n        kalimat <- c(kalimat, kata)\n      } else{\n        if(!is.null(kata)){\n          if(kata %in% daftar_perubahan$lama) {\n            idx <- which(daftar_perubahan$lama == kata)\n            kalimat <- c(kalimat, daftar_perubahan$baru[idx])\n          } else{\n            edit_dist <- adist(kata, daftar_kata)\n            min_edit_dist <- min(edit_dist)\n            proposals_by_prob <- c(daftar_kata[ edit_dist <= min_edit_dist])\n            a <- data.frame(lama=kata, baru=proposals_by_prob[1])\n            daftar_perubahan <- rbind(daftar_perubahan, a)\n            kalimat <- c(kalimat, proposals_by_prob[1])\n          }\n        }\n      }\n    }\n    m <- write.csv(daftar_perubahan,row.names=FALSE,  file=\"daftar_perubahan.csv\")\n  }\n\n  return(paste(kalimat, collapse=\" \"))\n}\n\nis_katadasar <- function(kata) {\n  kata_dasar <- unique(kamus_katadasar)\n  b <- !is.na(match(kata, kata_dasar))\n  return(b)\n}\n",
+    "created" : 1503426452693.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1030149924",
+    "id" : "ADCC8486",
+    "lastKnownWriteTime" : 1503558102,
+    "last_content_update" : 1503558102375,
+    "path" : "~/IndonesiaTypoCorR/R/IndonesiaTypoCorR.R",
+    "project_path" : "R/IndonesiaTypoCorR.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
