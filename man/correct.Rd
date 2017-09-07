@@ -4,17 +4,17 @@
 \alias{correct}
 \title{Spelling Corrector for Bahasa Indonesia}
 \usage{
-correct(kalimat)
+correct(kalimat, kamus = NULL)
 }
 \arguments{
-\item{kalimat}{}
+\item{kalimat, }{kamus}
 }
 \description{
 Provides function to correct spelling of a word in
 Bahasa Indonesia using Naive Bayes algorithm.
 }
 \examples{
-correc("tidakk")
+correct("tidakk")
 
 }
 \author{

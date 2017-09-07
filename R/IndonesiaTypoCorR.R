@@ -9,12 +9,12 @@
 #'
 #' @author Aisyah Zakiah
 #'
-#' @param kalimat
+#' @param kalimat, kamus
 #'
-#' @examples correc("tidakk")
+#' @examples correct("tidakk")
 #'
 
-correct <- function(kalimat) {
+correct <- function(kalimat, kamus=NULL) {
   kalimat <- as.character(kalimat)
   kalimat_split = strsplit(kalimat, split = " ")
   kalimat <- ""
@@ -22,7 +22,7 @@ correct <- function(kalimat) {
   for(i in kalimat_split[[1]]){
     kata <- i
     if(nchar(trimws(kata))>0){
-      if(is_katadasar(kata)) {
+      if(is_katadasar(kata, kamus = kamus)) {
         kalimat <- c(kalimat, kata)
       } else{
         if(!is.null(kata)){
@@ -46,8 +46,15 @@ correct <- function(kalimat) {
   return(paste(kalimat, collapse=" "))
 }
 
-is_katadasar <- function(kata) {
-  kata_dasar <- unique(kamus_katadasar)
+is_katadasar <- function(kata, kamus=NULL) {
+  if ( is.null(kamus) ) {
+    kata_dasar <- unique(kamus_katadasar)
+  } else if ( is.vector(kamus) ) {
+    kata_dasar <- unique(c(kamus_katadasar, kamus))
+  } else {
+    stop("Kamus harus berupa vektor!")
+  }
+
   b <- !is.na(match(kata, kata_dasar))
   return(b)
 }
